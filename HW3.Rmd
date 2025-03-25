@@ -1,0 +1,142 @@
+---
+title: "Joseph Henry HW3"
+author: "Joseph Henry"
+date: "2025-03-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+#HW 3 STARTS HERE
+
+#Question 1 (a) START
+
+#ages
+ages <- c(13, 15, 16, 16, 19, 20, 20, 21, 22, 22, 25, 25, 25, 25, 30, 33, 33, 35, 35, 35, 35, 36, 40, 45, 46, 52, 70)
+
+#bin depth of 3
+bin_depth <- 3
+
+#splitting into bins of size 3
+bins <- split(ages, ceiling(seq_along(ages) / bin_depth))
+
+#computing the means of bins
+smoothed_ages <- unlist(lapply(bins, mean))
+
+#printing the smoothed values
+print(smoothed_ages)
+
+#Question 1 (a) END
+
+#Question 1 (b) START
+
+#Quantiles
+Q1 <- quantile(ages, 0.25)
+Q3 <- quantile(ages, 0.75)
+
+#IQR value
+IQR_value <- Q3 - Q1
+
+#defining the upper and lower bounds
+lower_bound <- Q1 - 1.5 * IQR_value
+upper_bound <- Q3 + 1.5 * IQR_value
+
+# finding the outliers
+outliers <- ages[ages < lower_bound | ages > upper_bound]
+
+#printing the results of outliers
+print(outliers)
+
+#Quesion 1 (b) END
+
+#Question 1 (c) START
+
+#min and max  of ages
+min_age <- min(ages)
+max_age <- max(ages)
+
+#definiing normalization
+normalized_35 <- (35 - min_age) / (max_age - min_age)
+
+#printing normalization
+print(normalized_35)
+
+#Question 1 (c) END
+
+#Question 1 (d) START
+
+#mean of ages and standard deviation of ages
+mean_age <- mean(ages)
+sd_age <- sd(ages)
+
+#computing z_score_35
+z_score_35 <- (35 - mean_age) / sd_age
+
+#printing z_score_35
+print(z_score_35)
+
+#Question 1(d) END
+
+#Question 1(e) START
+
+#getting the max absolute value of ages
+max_abs_value <- max(abs(ages))
+
+#computing the ceiling of log base 10 of max absolute value
+j <- ceiling(log10(max_abs_value))
+
+#comuting the decimal scaling
+decimal_scaled_35 <- 35 / (10^j)
+
+#printing decimal_scaled_35
+print(decimal_scaled_35)
+
+#Question 1 (e) END
+
+#Question 1 END
+
+#Question 2 START
+
+#function for min max normalization
+min_max_normalization <- function(a, min_new, max_new) {
+  min_old <- min(a)
+  max_old <- max(a)
+  
+  normalized_a <- ((a - min_old) / (max_old - min_old)) * (max_new - min_new) + min_new
+  return(normalized_a)
+}
+
+#putting some age ranges into single values
+ages <- c(26, 31, 36, 41, 46, 50)  
+
+#normalizing the age values between 0 and 1
+normalized_ages <- min_max_normalization(ages, 0, 1)
+
+#printing the normalized ages
+print(normalized_ages)
+
+#Question 2 END
+
+#Questions 3 and 4 to be in the PDF
